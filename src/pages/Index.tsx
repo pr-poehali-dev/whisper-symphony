@@ -1,7 +1,8 @@
-import { BookOpen, Globe, Users, Archive, Landmark, Search, Plus, Minus, Mail } from "lucide-react"
+import { Plus, Minus, Mail } from "lucide-react"
 import Icon from "@/components/ui/icon"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 interface FAQ {
   question: string
@@ -10,6 +11,7 @@ interface FAQ {
 
 const Index = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const navigate = useNavigate()
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index)
@@ -104,12 +106,13 @@ const Index = () => {
 
           {/* Hall Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <Button size="lg" className="bg-white text-black hover:bg-white/90 rounded-full px-8 py-4 text-base font-medium">
+            <Button size="lg" onClick={() => navigate("/hall/internal")} className="bg-white text-black hover:bg-white/90 rounded-full px-8 py-4 text-base font-medium">
               Зал внутренней культурной политики
             </Button>
             <Button
               size="lg"
               variant="outline"
+              onClick={() => navigate("/hall/external")}
               className="bg-black/40 ring-1 ring-white/20 backdrop-blur border-0 text-white hover:bg-black/50 rounded-full px-8 py-4 text-base"
             >
               Зал внешней культурной политики
@@ -117,6 +120,7 @@ const Index = () => {
             <Button
               size="lg"
               variant="outline"
+              onClick={() => navigate("/hall/diaspora")}
               className="bg-black/40 ring-1 ring-white/20 backdrop-blur border-0 text-white hover:bg-black/50 rounded-full px-8 py-4 text-base"
             >
               Зал диаспор
@@ -184,7 +188,7 @@ const Index = () => {
 
             {/* Hall Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col">
+              <div onClick={() => navigate("/hall/internal")} className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col cursor-pointer hover:bg-white/10 transition-colors">
                 <div className="flex-1">
                   <div className="text-3xl font-bold text-white/60 mb-4">01.</div>
                   <h3 className="text-xl font-semibold mb-4">Зал внутренней культурной политики</h3>
@@ -194,7 +198,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col">
+              <div onClick={() => navigate("/hall/external")} className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col cursor-pointer hover:bg-white/10 transition-colors">
                 <div className="flex-1">
                   <div className="text-3xl font-bold text-white/60 mb-4">02.</div>
                   <h3 className="text-xl font-semibold mb-4">Зал внешней культурной политики</h3>
@@ -204,7 +208,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col">
+              <div onClick={() => navigate("/hall/diaspora")} className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-8 h-80 flex flex-col cursor-pointer hover:bg-white/10 transition-colors">
                 <div className="flex-1">
                   <div className="text-3xl font-bold text-white/60 mb-4">03.</div>
                   <h3 className="text-xl font-semibold mb-4">Зал диаспор</h3>
