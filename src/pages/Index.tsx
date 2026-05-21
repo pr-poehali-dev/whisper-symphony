@@ -95,14 +95,9 @@ const Index = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-6xl md:text-8xl font-light tracking-tight mb-6 text-balance">
-            Культура.<br />История.<br />Память.
+          <h1 className="text-6xl md:text-8xl font-light tracking-tight mb-12 text-balance">
+            Россия.<br />Культура.<br />Развитие.
           </h1>
-
-          {/* Subheading */}
-          <p className="text-xl md:text-2xl text-white/90 max-w-4xl mb-12 leading-relaxed text-pretty">
-            Виртуальный музей культурной политики — пространство, где собраны документы, артефакты и исследования о формировании культурной идентичности.
-          </p>
 
           {/* Hall Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-16">

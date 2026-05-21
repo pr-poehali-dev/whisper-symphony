@@ -138,16 +138,6 @@ const Hall = () => {
                   {section.description}
                 </p>
 
-                {/* Items list */}
-                <ul className="space-y-3 mb-10 flex-1">
-                  {section.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-white/60">
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/40 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
                 {/* CTA */}
                 <Button className="w-full bg-white text-black hover:bg-white/90 rounded-full font-medium">
                   Открыть раздел
