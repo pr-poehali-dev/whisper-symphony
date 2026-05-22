@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import Icon from "@/components/ui/icon"
+import { useState } from "react"
 
 const HALLS = {
   internal: {
@@ -20,44 +21,139 @@ const HALLS = {
   },
 }
 
-const SECTIONS = [
+interface Material {
+  title: string
+  description: string
+  source: string
+  url?: string
+}
+
+interface Section {
+  id: string
+  emoji: string
+  title: string
+  description: string
+  materials: Material[]
+}
+
+const SECTIONS: Section[] = [
   {
     id: "watch",
     emoji: "🎬",
     title: "Посмотрите!",
-    icon: "Play",
     description: "Документальные фильмы, видеолекции и репортажи о современной культурной жизни России",
-    items: [
-      "Документальный цикл «Культура и государство»",
-      "Видеолекции ведущих культурологов",
-      "Репортажи о федеральных культурных событиях",
-      "Интервью с деятелями культуры и искусства",
+    materials: [
+      {
+        title: "Национальный проект «Культура»",
+        description: "Лекция/вебинар на портале «Культура.РФ». Раскрывает тему цифровизации культуры, мультимедиагидов, платформы Artefact и участия музеев в проекте.",
+        source: "Культура.РФ",
+        url: "https://www.culture.ru",
+      },
+      {
+        title: "Госуслуги Культура: пошаговая инструкция",
+        description: "Практический ролик о цифровом доступе к культурным мероприятиям по Пушкинской карте.",
+        source: "RuTube: Госуслуги Культура",
+        url: "https://rutube.ru",
+      },
+      {
+        title: "Как бесплатно ходить в музеи",
+        description: "Ролик Почта Банка как оператора проекта «Пушкинская карта». Наглядное объяснение программы.",
+        source: "RuTube: Почта Банк",
+        url: "https://rutube.ru",
+      },
+      {
+        title: "Видеолекции «Короче, гранты»",
+        description: "Серия видеолекций Президентского фонда культурных инициатив для заявителей грантового конкурса.",
+        source: "ВКонтакте / ПФКИ",
+        url: "https://vk.com",
+      },
+      {
+        title: "Курс «Русский — язык образования, науки, бизнеса»",
+        description: "Онлайн-курс Института Пушкина для программы «Послы русского языка в мире». Видеолекции о русском языке, культуре, литературе и преподавании РКИ.",
+        source: "Институт Пушкина",
+        url: "https://pushkininstitute.ru",
+      },
+      {
+        title: "Плейлист театра Островского в Кинешме",
+        description: "Видео о работе по программе «Пушкинская карта» — пример регионального информационного сопровождения.",
+        source: "RuTube: театр Островского",
+        url: "https://rutube.ru",
+      },
     ],
   },
   {
     id: "listen",
     emoji: "🎧",
     title: "Послушайте!",
-    icon: "Headphones",
     description: "Подкасты, аудиолекции и записи дискуссий о культурных программах и проектах",
-    items: [
-      "Подкасты о культурной политике современной России",
-      "Аудиозаписи конференций и форумов",
-      "Лекции экспертов в области культуры",
-      "Записи круглых столов и публичных дискуссий",
+    materials: [
+      {
+        title: "Подкаст ПФКИ: заключение договора",
+        description: "Выпуск «Вы получили грант на реализацию творческого проекта: заключение договора». Пример аудиоформата методической поддержки фонда.",
+        source: "Apple Podcasts: ПФКИ",
+        url: "https://podcasts.apple.com",
+      },
+      {
+        title: "«Мой Пушкин!» на Радио России Иваново",
+        description: "Аудиозапись программы о «Пушкинской карте» на Радио России Иваново 89.1 FM. Пример регионального сопровождения проекта.",
+        source: "RuTube: плейлист театра Островского",
+        url: "https://rutube.ru",
+      },
+      {
+        title: "Аудиоподкасты ПФКИ для заявителей",
+        description: "Серия аудиоподкастов Президентского фонда культурных инициатив с методической поддержкой участников грантового конкурса.",
+        source: "ПФКИ / Администрация Нижневартовска",
+        url: "https://fond.culture.ru",
+      },
     ],
   },
   {
     id: "read",
     emoji: "📖",
     title: "Почитайте!",
-    icon: "BookOpen",
     description: "Программы, исследования, законодательные акты и аналитика в сфере культуры",
-    items: [
-      "Государственные программы и национальные проекты",
-      "Научные статьи и монографии по культурной политике",
-      "Аналитические доклады и отчёты профильных ведомств",
-      "Обзоры современных культурных инициатив",
+    materials: [
+      {
+        title: "Национальный проект «Культура» — официальный раздел",
+        description: "Официальный раздел Минкультуры о нацпроекте: сроки реализации 2019–2024, структура проекта, федеральные проекты «Культурная среда», «Творческие люди», «Цифровая культура», паспорта проекта.",
+        source: "Минкультуры России",
+        url: "https://culture.gov.ru",
+      },
+      {
+        title: "Стратегия культурной политики Чувашской Республики до 2024 года",
+        description: "Презентация по стратегии развития культурной политики. Пример региональной реализации нацпроекта.",
+        source: "Региональная стратегия",
+      },
+      {
+        title: "Тематическая подборка «Национальный проект Культура»",
+        description: "Подборка на портале «Культура.РФ»: новости, публикации, связанные с нацпроектом, цифровыми проектами и культурными инициативами.",
+        source: "Культура.РФ",
+        url: "https://www.culture.ru",
+      },
+      {
+        title: "Пушкинская карта — официальная страница",
+        description: "Программа для граждан России от 14 до 22 лет. Позволяет посещать учреждения культуры за счёт федерального бюджета. Инструкция и пояснительные материалы.",
+        source: "Культура.РФ: Пушкинская карта",
+        url: "https://www.culture.ru/pushkinskaya-karta",
+      },
+      {
+        title: "Грантовый конкурс ПФКИ — документы и материалы",
+        description: "Страница конкурса: документы, методические материалы, чек-лист, положение о конкурсе.",
+        source: "ПФКИ: грантовый конкурс",
+        url: "https://fond.culture.ru",
+      },
+      {
+        title: "Russian Express — официальная страница проекта",
+        description: "Проект Минкультуры России, МИД РФ и Росконцерта (2023). Включает образовательную программу и концерты российских национальных коллективов за рубежом.",
+        source: "Росконцерт",
+        url: "https://rosconcert.com",
+      },
+      {
+        title: "Центры открытого образования на русском языке",
+        description: "В 2024 году в 61 стране действовало 130 центров открытого образования на русском языке, где обучались более 16 тысяч учащихся.",
+        source: "Минпросвещения России",
+        url: "https://edu.gov.ru",
+      },
     ],
   },
 ]
@@ -65,6 +161,7 @@ const SECTIONS = [
 const Hall = () => {
   const { hallId } = useParams<{ hallId: string }>()
   const navigate = useNavigate()
+  const [activeSection, setActiveSection] = useState<string | null>(null)
 
   const hall = HALLS[hallId as keyof typeof HALLS]
 
@@ -72,6 +169,8 @@ const Hall = () => {
     navigate("/")
     return null
   }
+
+  const openSection = SECTIONS.find((s) => s.id === activeSection)
 
   return (
     <div className="min-h-screen bg-[#0B0F12] text-white">
@@ -121,24 +220,21 @@ const Hall = () => {
             {SECTIONS.map((section) => (
               <div
                 key={section.id}
+                onClick={() => setActiveSection(section.id)}
                 className="rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-10 flex flex-col hover:bg-white/8 transition-colors cursor-pointer group"
               >
-                {/* Icon */}
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black/30 ring-1 ring-white/20 mb-8 text-3xl">
                   {section.emoji}
                 </div>
 
-                {/* Title */}
                 <h2 className="text-3xl font-bold mb-4 group-hover:text-white/90 transition-colors">
                   {section.title}
                 </h2>
 
-                {/* Description */}
-                <p className="text-white/70 leading-relaxed mb-8">
+                <p className="text-white/70 leading-relaxed mb-8 flex-1">
                   {section.description}
                 </p>
 
-                {/* CTA */}
                 <Button className="w-full bg-white text-black hover:bg-white/90 rounded-full font-medium">
                   Открыть раздел
                 </Button>
@@ -147,6 +243,63 @@ const Hall = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      {activeSection && openSection && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={() => setActiveSection(null)}
+        >
+          <div
+            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl bg-[#0B0F12] ring-1 ring-white/15 p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">{openSection.emoji}</div>
+                <h2 className="text-2xl font-bold">{openSection.title}</h2>
+              </div>
+              <button
+                onClick={() => setActiveSection(null)}
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              >
+                <Icon name="X" size={18} />
+              </button>
+            </div>
+
+            {/* Materials */}
+            <div className="space-y-4">
+              {openSection.materials.map((mat, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 hover:bg-white/8 transition-colors"
+                >
+                  <h3 className="font-semibold text-base mb-2">{mat.title}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed mb-3">{mat.description}</p>
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <span className="text-xs text-white/40 flex items-center gap-1">
+                      <Icon name="BookOpen" size={12} />
+                      {mat.source}
+                    </span>
+                    {mat.url && (
+                      <a
+                        href={mat.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center gap-1"
+                      >
+                        Перейти
+                        <Icon name="ExternalLink" size={11} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer strip */}
       <footer className="relative z-10 py-10 px-6 text-center">
